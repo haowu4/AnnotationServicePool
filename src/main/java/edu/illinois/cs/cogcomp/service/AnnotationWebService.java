@@ -1,6 +1,6 @@
 package edu.illinois.cs.cogcomp.service;
 
-import static edu.illinois.cs.cogcomp.utils.CuratorUtils.getRemoteViews;
+import static edu.illinois.cs.cogcomp.utils.AnnotationUtils.getRemoteViews;
 import static edu.illinois.cs.cogcomp.utils.JsonUtils.UGLY_GSON;
 import static spark.Spark.get;
 import static spark.Spark.init;
@@ -10,11 +10,10 @@ import edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation
 import edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotationUtilities;
 import edu.illinois.cs.cogcomp.core.utilities.SerializationHelper;
 import edu.illinois.cs.cogcomp.core.utilities.StringTransformation;
-import edu.illinois.cs.cogcomp.core.utilities.StringTransformationCleanup;
 import edu.illinois.cs.cogcomp.service.message.AnnotationFailures;
 import edu.illinois.cs.cogcomp.service.message.AnnotationRequest;
 import edu.illinois.cs.cogcomp.service.message.AnnotationResponse;
-import edu.illinois.cs.cogcomp.utils.CuratorUtils;
+import edu.illinois.cs.cogcomp.utils.AnnotationUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,8 +39,8 @@ public class AnnotationWebService {
 
   public static void initService() throws Exception {
     combinedService = new CombinedAnnotatorService(
-        CuratorUtils.getLocalConfig(), CuratorUtils.getRemoteConfig(),
-        toSet(CuratorUtils.getLocalViews()), toSet(getRemoteViews()));
+        AnnotationUtils.getLocalConfig(), AnnotationUtils.getRemoteConfig(),
+        toSet(AnnotationUtils.getLocalViews()), toSet(getRemoteViews()));
   }
 
   public static String annotate(AnnotationRequest request, Response response) {
@@ -50,7 +49,7 @@ public class AnnotationWebService {
     final List<AnnotationFailures> failures = new ArrayList<>();
 
     StringTransformation transformation = new StringTransformation(doc.getText());
-    CuratorUtils.cleanUp(transformation);
+    AnnotationUtils.cleanUp(transformation);
 
     try {
       textAnnotation = combinedService.getLocalAnnotator()

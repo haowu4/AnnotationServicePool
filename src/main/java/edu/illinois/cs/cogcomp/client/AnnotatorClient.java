@@ -1,7 +1,7 @@
 package edu.illinois.cs.cogcomp.client;
 
-import static edu.illinois.cs.cogcomp.utils.CuratorUtils.getLocalViews;
-import static edu.illinois.cs.cogcomp.utils.CuratorUtils.getRemoteViews;
+import static edu.illinois.cs.cogcomp.utils.AnnotationUtils.getLocalViews;
+import static edu.illinois.cs.cogcomp.utils.AnnotationUtils.getRemoteViews;
 
 import edu.illinois.cs.cogcomp.annotation.AnnotatorException;
 import edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation;

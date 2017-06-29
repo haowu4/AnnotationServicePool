@@ -20,7 +20,7 @@ import org.apache.commons.io.FileUtils;
 /**
  * Created by haowu4 on 6/28/17.
  */
-public class CuratorUtils {
+public class AnnotationUtils {
 
   public static ResourceManager getLocalConfig() {
     Properties props = new Properties();
