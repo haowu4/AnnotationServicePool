@@ -187,7 +187,8 @@ public class AnnotationUtils {
     cleanUpByPattern(transformation, "\\p{IsHan}+", old -> "John");
 
     cleanUpByPattern(transformation, "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\s+", old -> "");
-    cleanUpByPattern(transformation, "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\s\\d{2}:\\s\\d{2}\\s+", old -> "");
+    cleanUpByPattern(transformation, "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\s\\d{2}:\\s\\d{2}\\s+",
+        old -> "");
 
 
   }
