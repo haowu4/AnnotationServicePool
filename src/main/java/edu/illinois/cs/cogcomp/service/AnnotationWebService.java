@@ -1,6 +1,6 @@
 package edu.illinois.cs.cogcomp.service;
 
-import static edu.illinois.cs.cogcomp.utils.CuratorUtils.getRetmoteViews;
+import static edu.illinois.cs.cogcomp.utils.CuratorUtils.getRemoteViews;
 import static edu.illinois.cs.cogcomp.utils.JsonUtils.UGLY_GSON;
 import static spark.Spark.get;
 import static spark.Spark.init;
@@ -41,7 +41,7 @@ public class AnnotationWebService {
   public static void initService() throws Exception {
     combinedService = new CombinedAnnotatorService(
         CuratorUtils.getLocalConfig(), CuratorUtils.getRemoteConfig(),
-        toSet(CuratorUtils.getLocalViews()), toSet(getRetmoteViews()));
+        toSet(CuratorUtils.getLocalViews()), toSet(getRemoteViews()));
   }
 
   public static String annotate(AnnotationRequest request, Response response) {

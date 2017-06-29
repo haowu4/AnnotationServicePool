@@ -139,7 +139,7 @@ public class CuratorUtils {
     };
   }
 
-  public static String[] getRetmoteViews() {
+  public static String[] getRemoteViews() {
     return new String[]{ViewNames.SRL_NOM, ViewNames.SRL_VERB};
   }
 }
