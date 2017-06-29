@@ -2,12 +2,19 @@ package edu.illinois.cs.cogcomp.utils;
 
 import edu.illinois.cs.cogcomp.annotation.AnnotatorServiceConfigurator;
 import edu.illinois.cs.cogcomp.core.datastructures.ViewNames;
+import edu.illinois.cs.cogcomp.core.utilities.StringTransformation;
+import edu.illinois.cs.cogcomp.core.utilities.StringTransformationCleanup;
 import edu.illinois.cs.cogcomp.core.utilities.configuration.Configurator;
 import edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager;
 import edu.illinois.cs.cogcomp.curator.CuratorConfigurator;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -142,4 +149,63 @@ public class CuratorUtils {
   public static String[] getRemoteViews() {
     return new String[]{ViewNames.SRL_NOM, ViewNames.SRL_VERB};
   }
+
+  public static interface StringMapper {
+
+    String map(String old);
+  }
+
+  public static void cleanUpByPattern(StringTransformation transformation, String pattern,
+      StringMapper mapper) {
+
+    Pattern p = Pattern.compile(pattern);
+    Matcher matcher = p.matcher(transformation.getOrigText());
+
+    while (matcher.find()) {
+      int start = matcher.start();
+      int end = matcher.end();
+      String oldText = transformation.getOrigText().substring(start, end);
+//      System.err.println(String.format("%d-%d [%s]", start , end, oldText));
+      transformation.transformString(start, end, mapper.map(oldText));
+//      System.out
+//          .println(matcher.group() + ":" + "start =" + matcher.start() + " end = " + matcher.end());
+    }
+
+  }
+
+  public static void cleanUp(StringTransformation transformation) {
+//    StringTransformationCleanup.normalizeToLatin1(transformation);
+    StringTransformationCleanup.removeDiacritics(transformation);
+    // unescape XML elements.
+
+    cleanUpByPattern(transformation, "&quot;", old -> "\"");
+    cleanUpByPattern(transformation, "&apos;", old -> "'");
+    cleanUpByPattern(transformation, "&#39;", old -> "'");
+    cleanUpByPattern(transformation, "&lt;", old -> "<");
+    cleanUpByPattern(transformation, "&gt;", old -> ">");
+    cleanUpByPattern(transformation, "&amp;", old -> "&");
+    cleanUpByPattern(transformation, "\\p{IsHan}+", old -> "John");
+
+    cleanUpByPattern(transformation, "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\s+", old -> "");
+    cleanUpByPattern(transformation, "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\s\\d{2}:\\s\\d{2}\\s+", old -> "");
+
+
+  }
+
+  public static void main(String[] args) throws IOException {
+    String all = FileUtils.readFileToString(new File("/tmp/errors.txt"));
+    String[] examples = all.split("------");
+    Set<String> uniqueExamples = new HashSet<>();
+    uniqueExamples.addAll(Arrays.asList(examples));
+    for (String example : uniqueExamples) {
+      System.out.println("--------------------");
+      System.out.println(example);
+      StringTransformation transformation = new StringTransformation(example);
+      cleanUp(transformation);
+      System.out.println("                ");
+      System.out.println(transformation.getTransformedText());
+      System.out.println("====================");
+    }
+  }
+
 }

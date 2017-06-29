@@ -50,13 +50,12 @@ public class AnnotationWebService {
     final List<AnnotationFailures> failures = new ArrayList<>();
 
     StringTransformation transformation = new StringTransformation(doc.getText());
-    StringTransformationCleanup.normalizeToLatin1(transformation);
-    StringTransformationCleanup.removeDiacritics(transformation);
+    CuratorUtils.cleanUp(transformation);
 
     try {
       textAnnotation = combinedService.getLocalAnnotator()
           .createBasicTextAnnotation(doc.getCorpora(), doc
-              .getId(), doc.getText());
+              .getId(), transformation.getTransformedText());
     } catch (AnnotatorException e) {
       e.printStackTrace();
       failures.add(new AnnotationFailures(doc.getId(), "createBasicTextAnnotation", -1, e));
