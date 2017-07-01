@@ -29,13 +29,13 @@ public class AnnotationUtils {
         Properties props = new Properties();
         props.setProperty("usePos", Configurator.TRUE);
         props.setProperty("useLemma",
-                Configurator.TRUE);
+                Configurator.FALSE);
         props.setProperty("useShallowParse",
-                Configurator.TRUE);
+                Configurator.FALSE);
         props.setProperty("useNerConll",
-                Configurator.TRUE);
+                Configurator.FALSE);
         props.setProperty("useNerOntonotes",
-                Configurator.TRUE);
+                Configurator.FALSE);
         props.setProperty("useStanfordParse",
                 Configurator.TRUE);
         props.setProperty("useStanfordDep",
