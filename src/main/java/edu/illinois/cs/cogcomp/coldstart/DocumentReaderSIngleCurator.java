@@ -1,7 +1,5 @@
 package edu.illinois.cs.cogcomp.coldstart;
 
-import static edu.illinois.cs.cogcomp.coldstart.DocumentReader.REQUIRED_VIEWS;
-
 import edu.illinois.cs.cogcomp.annotation.AnnotatorException;
 import edu.illinois.cs.cogcomp.annotation.AnnotatorService;
 import edu.illinois.cs.cogcomp.annotation.AnnotatorServiceConfigurator;
@@ -15,9 +13,6 @@ import edu.illinois.cs.cogcomp.curator.CuratorConfigurator;
 import edu.illinois.cs.cogcomp.curator.CuratorFactory;
 import edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory;
 import edu.illinois.cs.cogcomp.service.Document;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 import org.h2.mvstore.ConcurrentArrayList;
 
@@ -32,7 +27,12 @@ import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static edu.illinois.cs.cogcomp.coldstart.DocumentReader.REQUIRED_VIEWS;
 
 /**
  * Created by haowu4 on 6/27/17.
