@@ -29,7 +29,7 @@ public class AnnotationUtils {
         Properties props = new Properties();
         props.setProperty("usePos", Configurator.TRUE);
         props.setProperty("useLemma",
-                Configurator.FALSE);
+                Configurator.TRUE);
         props.setProperty("useShallowParse",
                 Configurator.FALSE);
         props.setProperty("useNerConll",
@@ -131,7 +131,7 @@ public class AnnotationUtils {
 
         props.setProperty(CuratorConfigurator.CURATOR_HOST.key, hostname);
         props.setProperty(CuratorConfigurator.CURATOR_PORT.key, port);
-        props.setProperty(CuratorConfigurator.RESPECT_TOKENIZATION.key, Configurator.TRUE);
+        props.setProperty(CuratorConfigurator.RESPECT_TOKENIZATION.key, Configurator.FALSE);
         props.setProperty(CuratorConfigurator.CURATOR_FORCE_UPDATE.key, Configurator.FALSE);
 
         return new ResourceManager(props);
