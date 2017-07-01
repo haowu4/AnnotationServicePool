@@ -70,11 +70,7 @@ public class CombinedAnnotatorService {
         }
     }
 
-    public void annotateOneView(TextAnnotation textAnnotation, String viewName, AnnotatorService service) throws AnnotatorException {
-        service.addView(textAnnotation, viewName);
-    }
-
-    public void annotateOneView(TextAnnotation textAnnotation, String viewName, boolean useCurator, boolean bySentence, FailureObserver observer) throws AnnotatorException {
+    public void annotateOneView(TextAnnotation textAnnotation, String viewName, boolean useCurator, boolean bySentence, FailureObserver observer) {
         AnnotatorService service = useCurator ? remoteAnnotator : localAnnotator;
         if (bySentence) {
             annotateDocumentBySentence(textAnnotation, viewName, service, observer);

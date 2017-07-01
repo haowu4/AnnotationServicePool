@@ -70,9 +70,7 @@ public class AnnotationWebService {
         };
 
         for (AnnotationRequest.AnnotationView av : request.getViews()){
-            if (av.isProcessAtSentenceLevel()){
-
-            }
+            combinedService.annotateOneView(textAnnotation, av.getViewName(), av.isUseCurator(), av.isProcessAtSentenceLevel(), observer);
         }
 
 
