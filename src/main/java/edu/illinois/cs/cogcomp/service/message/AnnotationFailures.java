@@ -31,4 +31,20 @@ public class AnnotationFailures {
   public String toJson() {
     return UGLY_GSON.toJson(this);
   }
+
+  public String getId() {
+    return id;
+  }
+
+  public String getView() {
+    return view;
+  }
+
+  public int getSentence() {
+    return sentence;
+  }
+
+  public String getError() {
+    return error;
+  }
 }
