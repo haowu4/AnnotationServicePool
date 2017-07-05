@@ -69,7 +69,7 @@ public class AnnotationWebService {
             failures.add(new AnnotationFailures(ta.getId(), viewName, sentence, err));
         };
 
-        for (AnnotationRequest.AnnotationView av : request.getViews()){
+        for (AnnotationRequest.AnnotationView av : request.getViews()) {
             combinedService.annotateOneView(textAnnotation, av.getViewName(), av.isUseCurator(), av.isProcessAtSentenceLevel(), observer);
         }
 
