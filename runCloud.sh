@@ -11,6 +11,7 @@ cd  dist
 ./startServers.sh
 
 cd /home/ec2-user/codes/AnnotationServicePool
+git reset --hard
 git pull origin master
 ./run.sh &
 

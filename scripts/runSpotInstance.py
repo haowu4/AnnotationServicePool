@@ -2,42 +2,52 @@ import boto.ec2
 import time
 import click
 
+
+def all_have_ip(conn, ids):
+    spots = conn.get_all_spot_instance_requests(request_ids=ids)
+    for spot in spots:
+        if spot.instance_id is None:
+            return False
+    return True
+        
+def get_all_ip(conn, ids):
+    spots = conn.get_all_spot_instance_requests(request_ids=ids)
+    return [spot.instance_id for spot in spots]
+
 @click.command()
 @click.option('--count', default=1, help='number of greetings')
 @click.option('--init', default="../runCloud.sh")
 def run_instance(count, init):
-	conn = boto.ec2.connect_to_region('us-east-1')
+    conn = boto.ec2.connect_to_region('us-east-1')
+ 
+    with open(init) as input_fd:
+        user_data_script = input_fd.read()
 
-	# Enhanced creation now with the addition of 'user_data'
+    # Red Hat Enterprise Linux 6.4 (ami-7d0c6314)
 
-	user_data_script = """#!/bin/bash
-	echo "Hello World" >> /tmp/data.txt"""
 
-	with open(init) as input_fd:
-		user_data_script = input_fd.read()
+    new_reservation = conn.request_spot_instances(
+                            price="0.19",
+                            image_id='ami-56fde840',
+                            count=count,
+                            type="one-time",
+                            key_name='haowu4_mbpr',
+                            instance_type='m4.2xlarge',
+                            security_group_ids=['sg-33ce6642'],
+                            user_data=user_data_script)
+    print "New instance created."
+    time.sleep(1)
+    spot_ids = [x.id for x in new_reservation]
+    i = 20
+    while i > 0:
+        if all_have_ip(conn, spot_ids):
+            conn.create_tags(get_all_ip(conn, spot_ids), {"Name":"Curator with SRL"})
+            break
+        
+        time.sleep(10)
 
-	# Red Hat Enterprise Linux 6.4 (ami-7d0c6314)
-	new_reservation = conn.request_spot_instances(
-	                        price="0.19",
-	                        image_id='ami-56fde840',
-	                        count=count,
-	                        type="one-time",
-	                        key_name='haowu4_mbpr',
-	                        instance_type='m4.2xlarge',
-	                        security_group_ids=['sg-33ce6642'],
-	                        user_data=user_data_script)
-	print "New instance created."
-	print new_reservation
-	# Add a Name to the instance, then loop to wait for it to be running.
-	# instance = new_reservation.instances[0]
-	# conn.create_tags([instance.id], {"Name":"PyWebDev Example 3b"})
-	# while instance.state == u'pending':
-	#     print "Instance state: %s" % instance.state
-	#     time.sleep(10)
-	# #     instance.update()
+    if i <= 0:
+        print "Waited too long for spot instance to fire up..."
 
-	# print "Instance state: %s" % instance.state
-	# print "Public dns: %s" % instance.public_dns_name
-	 
 if __name__ == '__main__':
-	run_instance()
+    run_instance()

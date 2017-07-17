@@ -53,7 +53,7 @@ public class AnnotationWebService {
         AnnotationUtils.cleanUp(transformation);
 
         try {
-            textAnnotation = combinedService.getLocalAnnotator()
+            textAnnotation = combinedService.getRemoteAnnotator()
                     .createBasicTextAnnotation(doc.getCorpora(), doc
                             .getId(), transformation.getTransformedText());
         } catch (AnnotatorException e) {
