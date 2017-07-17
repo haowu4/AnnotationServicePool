@@ -11,7 +11,7 @@ cd  dist
 ./startServers.sh
 
 cd /home/ec2-user/codes/AnnotationServicePool
-git pull
+git pull origin master
 ./run.sh &
 
 sudo service iptables stop
