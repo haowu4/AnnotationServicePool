@@ -10,41 +10,43 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  */
 public class AnnotationFailures {
 
-  String id;
-  String view;
-  int sentence;
-  String error;
+    String id;
+    String view;
+    int sentence;
+    String error;
+    String message;
 
-  public AnnotationFailures(String id, String view, int sentence, Throwable e) {
-    this.id = id;
-    this.view = view;
-    this.sentence = sentence;
-    this.error = ExceptionUtils.getStackTrace(e);
-  }
+    public AnnotationFailures(String id, String view, int sentence, Throwable e) {
+        this.id = id;
+        this.view = view;
+        this.sentence = sentence;
+        this.error = ExceptionUtils.getStackTrace(e);
+        this.message = e.getMessage();
+    }
 
 
-  @Override
-  public String toString() {
-    return JsonUtils.PRETTY_GSON.toJson(this);
-  }
+    @Override
+    public String toString() {
+        return JsonUtils.PRETTY_GSON.toJson(this);
+    }
 
-  public String toJson() {
-    return UGLY_GSON.toJson(this);
-  }
+    public String toJson() {
+        return UGLY_GSON.toJson(this);
+    }
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getView() {
-    return view;
-  }
+    public String getView() {
+        return view;
+    }
 
-  public int getSentence() {
-    return sentence;
-  }
+    public int getSentence() {
+        return sentence;
+    }
 
-  public String getError() {
-    return error;
-  }
+    public String getError() {
+        return error;
+    }
 }

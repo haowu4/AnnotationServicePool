@@ -32,8 +32,8 @@ public class ColdStartReader {
     }
 
     public static void main(String[] args) throws IOException {
-        String lefts = "/home/haowu4/annotation/coldstart_2017/eng/nw";
-        String rights = "/home/haowu4/annotation/coldstart_2017/need_to_annotate/";
+        String lefts = "/home/haowu4/annotation/coldstart_2017/eng/df";
+        String rights = "/home/haowu4/annotation/coldstart_2017/need_to_annotate_df/";
 
 
         List<Path> docPaths = Files.walk(Paths.get(lefts))

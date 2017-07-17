@@ -31,10 +31,10 @@ public class PoolOfClient {
 
     private static class Args {
         @Parameter(names = {"-in"}, description = "Input folder")
-        String inputFolder = "/home/haowu4/annotation/coldstart_2017/need_to_annotate/";
+        String inputFolder = "/home/haowu4/annotation/coldstart_2017/need_to_annotate_df/";
 
         @Parameter(names = {"-out"}, description = "Output folder")
-        String outputFolder = "/home/haowu4/data/coldstart_2017_result/";
+        String outputFolder = "/home/haowu4/annotation/coldstart_2017_result/";
 
         @Parameter(names = {"-shuffle"}, description = "Random order")
         boolean shuffleOrder = false;
@@ -107,13 +107,16 @@ public class PoolOfClient {
             @Override
             public void run() {
                 while (!documents.isEmpty()) {
+                    System.out.print(String.format("Status: %d/%d finished. Average failure sentence-view count %d", finished.get(), docSize, numOfFailure.get()));
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.print(String.format("Status: %d/%d finished. Average failure sentence-view count %d\r", finished.get(), docSize, numOfFailure.get()));
+                    System.out.print("\r");
                 }
+                System.out.print(String.format("Status: %d/%d finished. Average failure sentence-view count %d", finished.get(), docSize, numOfFailure.get()));
+
             }
         });
 
@@ -158,6 +161,7 @@ public class PoolOfClient {
         }
 
         System.out.println("Finished..");
+        System.out.println(String.format("Status: %d/%d finished. Average failure sentence-view count %d", finished.get(), docSize, numOfFailure.get()));
 
     }
 

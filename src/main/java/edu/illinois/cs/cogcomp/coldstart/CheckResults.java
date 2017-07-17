@@ -29,7 +29,7 @@ public class CheckResults {
 
 
     public static void main(String[] args) throws IOException {
-        final String BASE = "/home/haowu4/data/coldstart/results/";
+        final String BASE = "/home/haowu4/annotation/coldstart_2017/need_to_annotate";
 
         List<Path> docPaths = Files.walk(Paths.get(BASE))
                 .filter(Files::isRegularFile)
@@ -48,7 +48,7 @@ public class CheckResults {
             String content = FileUtils.readFileToString(f);
             AnnotationResponse response = JsonUtils.UGLY_GSON.fromJson(content, AnnotationResponse.class);
 //            TextAnnotation r = getTextAnnotationFromResponse(response);
-            if (response.getFailures().size() > 4) {
+            if (response.getFailures().size() > 10) {
                 System.out.print(String.format(" %d/%d \r", badFiles, counter));
                 badFiles++;
                 badFilesList.add(f.getAbsolutePath());
