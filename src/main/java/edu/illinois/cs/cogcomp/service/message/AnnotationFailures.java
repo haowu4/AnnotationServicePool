@@ -22,6 +22,13 @@ public class AnnotationFailures {
         this.sentence = sentence;
         this.error = ExceptionUtils.getStackTrace(e);
         this.message = e.getMessage();
+        if (this.message == null) {
+            this.message = e.getLocalizedMessage();
+        }
+
+        if (this.message == null) {
+            this.message = e.toString();
+        }
     }
 
 

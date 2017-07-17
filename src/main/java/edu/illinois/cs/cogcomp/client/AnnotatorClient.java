@@ -46,9 +46,9 @@ public class AnnotatorClient {
 
         client = new OkHttpClient().
                 newBuilder()
-                .readTimeout(45, TimeUnit.SECONDS)
-                .connectTimeout(45, TimeUnit.SECONDS)
-                .writeTimeout(45, TimeUnit.SECONDS)
+                .readTimeout(75, TimeUnit.SECONDS)
+                .connectTimeout(75, TimeUnit.SECONDS)
+                .writeTimeout(75, TimeUnit.SECONDS)
                 .build();
         ;
     }
