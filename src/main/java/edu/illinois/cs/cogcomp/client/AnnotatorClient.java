@@ -79,15 +79,26 @@ public class AnnotatorClient {
     }
 
     public static List<AnnotationRequest.AnnotationView> getViews() {
+//        return Arrays.asList(
+//                new AnnotationRequest.AnnotationView(ViewNames.POS, true, true),
+//                new AnnotationRequest.AnnotationView(ViewNames.NER_CONLL, true, true),
+//                new AnnotationRequest.AnnotationView(ViewNames.SHALLOW_PARSE, true, true),
+//                new AnnotationRequest.AnnotationView(ViewNames.SRL_NOM, true, true),
+//                new AnnotationRequest.AnnotationView(ViewNames.SRL_VERB, true, true),
+//                new AnnotationRequest.AnnotationView(ViewNames.LEMMA, false, true),
+//                new AnnotationRequest.AnnotationView(ViewNames.DEPENDENCY_STANFORD, false, true),
+//                new AnnotationRequest.AnnotationView(ViewNames.PARSE_STANFORD, false, true)
+//        );
+
         return Arrays.asList(
-                new AnnotationRequest.AnnotationView(ViewNames.POS, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.NER_CONLL, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.SHALLOW_PARSE, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.SRL_NOM, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.SRL_VERB, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.LEMMA, false, true),
-                new AnnotationRequest.AnnotationView(ViewNames.DEPENDENCY_STANFORD, false, true),
-                new AnnotationRequest.AnnotationView(ViewNames.PARSE_STANFORD, false, true)
+                new AnnotationRequest.AnnotationView(ViewNames.POS, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.NER_CONLL, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.SHALLOW_PARSE, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.SRL_NOM, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.SRL_VERB, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.LEMMA, false, false),
+                new AnnotationRequest.AnnotationView(ViewNames.DEPENDENCY_STANFORD, false, false),
+                new AnnotationRequest.AnnotationView(ViewNames.PARSE_STANFORD, false, false)
         );
     }
 
