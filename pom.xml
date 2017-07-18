@@ -38,17 +38,17 @@
         <dependency>
             <groupId>edu.illinois.cs.cogcomp</groupId>
             <artifactId>illinois-core-utilities</artifactId>
-            <version>3.1.23-SNAPSHOT</version>
+            <version>3.1.26-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.illinois.cs.cogcomp</groupId>
             <artifactId>illinois-curator</artifactId>
-            <version>3.1.23-SNAPSHOT</version>
+            <version>3.1.26-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.illinois.cs.cogcomp</groupId>
             <artifactId>illinois-nlp-pipeline</artifactId>
-            <version>3.1.23-SNAPSHOT</version>
+            <version>3.1.26-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.sparkjava</groupId>
