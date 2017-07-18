@@ -5,7 +5,7 @@
  * Developed by: The Cognitive Computation Group University of Illinois at Urbana-Champaign
  * http://cogcomp.cs.illinois.edu/
  */
-package edu.illinois.cs.cogcomp.curator;
+package edu.illinois.cs.cogcomp.curator2;
 
 import edu.illinois.cs.cogcomp.core.datastructures.ViewNames;
 import edu.illinois.cs.cogcomp.core.datastructures.ViewTypes;
@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * <b>UPDATE:</b> While {@link edu.illinois.cs.cogcomp.curator.CuratorClient} will still be able to
+ * <b>UPDATE:</b> While {@link CuratorClient} will still be able to
  * provide {@link edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation}s and
  * {@link edu.illinois.cs.cogcomp.core.datastructures.textannotation.View}s, the <i>canonical</i>
  * way to access the {@code Curator} is now through the {@link CuratorAnnotatorService} (which
@@ -279,7 +279,8 @@ public class CuratorClient {
             SocketException {
         viewName = convertCuratorViewName(viewName);
         TSocket tSocket = new TSocket(this.curatorHost, this.curatorPort);
-        tSocket.setTimeout(1000 * 60);
+//        tSocket.setTimeout(1000 * 60);
+        System.err.println("Setting timeout...");
         TTransport transport = tSocket;
         System.out.println("My own implementation with timeout: Calling curator on host '" + curatorHost + "', port '" + curatorPort
                 + "' for view '" + viewName + "'...");
@@ -294,6 +295,9 @@ public class CuratorClient {
             throw e;
         }
         transport = new TFramedTransport(transport);
+
+        ((TSocket) transport).getSocket().setSoTimeout(1000 * 240);
+
         TProtocol protocol = new TBinaryProtocol(transport);
         transport.open();
 

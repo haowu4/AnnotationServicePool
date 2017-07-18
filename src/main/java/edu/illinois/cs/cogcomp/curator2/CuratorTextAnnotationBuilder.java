@@ -5,10 +5,9 @@
  * Developed by: The Cognitive Computation Group University of Illinois at Urbana-Champaign
  * http://cogcomp.cs.illinois.edu/
  */
-package edu.illinois.cs.cogcomp.curator;
+package edu.illinois.cs.cogcomp.curator2;
 
 import edu.illinois.cs.cogcomp.annotation.TextAnnotationBuilder;
-import edu.illinois.cs.cogcomp.core.datastructures.ViewNames;
 import edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation;
 import edu.illinois.cs.cogcomp.nlp.tokenizer.Tokenizer;
 import edu.illinois.cs.cogcomp.thrift.base.AnnotationFailedException;
@@ -19,7 +18,7 @@ import java.net.SocketException;
 
 /**
  * A simple {@link edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation}
- * builder, that uses {@link edu.illinois.cs.cogcomp.curator.CuratorClient} to create a
+ * builder, that uses {@link CuratorClient} to create a
  * TextAnnotation and populate it with
  * {@link edu.illinois.cs.cogcomp.core.datastructures.ViewNames#TOKENS} and
  * {@link edu.illinois.cs.cogcomp.core.datastructures.ViewNames#SENTENCE} views.

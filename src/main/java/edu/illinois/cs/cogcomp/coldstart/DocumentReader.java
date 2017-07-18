@@ -7,9 +7,9 @@ import edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation
 import edu.illinois.cs.cogcomp.core.utilities.SerializationHelper;
 import edu.illinois.cs.cogcomp.core.utilities.configuration.Configurator;
 import edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager;
-import edu.illinois.cs.cogcomp.curator.AnnotationServicePool;
-import edu.illinois.cs.cogcomp.curator.CuratorConfigurator;
-import edu.illinois.cs.cogcomp.curator.CuratorFactory;
+import edu.illinois.cs.cogcomp.curator2.AnnotationServicePool;
+import edu.illinois.cs.cogcomp.curator2.CuratorConfigurator;
+import edu.illinois.cs.cogcomp.curator2.CuratorFactory;
 import edu.illinois.cs.cogcomp.service.Document;
 import org.apache.commons.io.FileUtils;
 import org.h2.mvstore.ConcurrentArrayList;

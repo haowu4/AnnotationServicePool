@@ -46,9 +46,9 @@ public class AnnotatorClient {
 
         client = new OkHttpClient().
                 newBuilder()
-                .readTimeout(75, TimeUnit.SECONDS)
-                .connectTimeout(75, TimeUnit.SECONDS)
-                .writeTimeout(75, TimeUnit.SECONDS)
+                .readTimeout(240, TimeUnit.SECONDS)
+                .connectTimeout(240, TimeUnit.SECONDS)
+                .writeTimeout(240, TimeUnit.SECONDS)
                 .build();
         ;
     }
@@ -91,14 +91,14 @@ public class AnnotatorClient {
 //        );
 
         return Arrays.asList(
-                new AnnotationRequest.AnnotationView(ViewNames.POS, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.NER_CONLL, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.SHALLOW_PARSE, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.SRL_NOM, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.SRL_VERB, true, true),
-                new AnnotationRequest.AnnotationView(ViewNames.LEMMA, false, true),
-                new AnnotationRequest.AnnotationView(ViewNames.DEPENDENCY_STANFORD, false, true),
-                new AnnotationRequest.AnnotationView(ViewNames.PARSE_STANFORD, false, true)
+                new AnnotationRequest.AnnotationView(ViewNames.POS, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.NER_CONLL, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.SHALLOW_PARSE, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.SRL_NOM, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.SRL_VERB, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.LEMMA, false, false),
+                new AnnotationRequest.AnnotationView(ViewNames.DEPENDENCY_STANFORD, false, false),
+                new AnnotationRequest.AnnotationView(ViewNames.PARSE_STANFORD, false, false)
         );
     }
 

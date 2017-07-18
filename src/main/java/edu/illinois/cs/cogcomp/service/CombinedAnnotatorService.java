@@ -1,12 +1,10 @@
 package edu.illinois.cs.cogcomp.service;
 
-import edu.illinois.cs.cogcomp.annotation.AnnotatorException;
 import edu.illinois.cs.cogcomp.annotation.AnnotatorService;
 import edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation;
 import edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotationUtilities;
 import edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager;
-import edu.illinois.cs.cogcomp.curator.AnnotationServicePool;
-import edu.illinois.cs.cogcomp.curator.CuratorFactory;
+import edu.illinois.cs.cogcomp.curator2.CuratorFactory;
 import edu.illinois.cs.cogcomp.pipeline.main.PipelineFactory;
 
 import java.util.Set;

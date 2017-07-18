@@ -5,7 +5,7 @@
  * Developed by: The Cognitive Computation Group University of Illinois at Urbana-Champaign
  * http://cogcomp.cs.illinois.edu/
  */
-package edu.illinois.cs.cogcomp.curator;
+package edu.illinois.cs.cogcomp.curator2;
 
 import edu.illinois.cs.cogcomp.annotation.AnnotatorException;
 import edu.illinois.cs.cogcomp.annotation.AnnotatorService;
@@ -26,7 +26,7 @@ import java.util.*;
  * annotators available in CCG Curator.
  * <p>
  * Do not call this class directly; instead, use
- * {@link edu.illinois.cs.cogcomp.curator.CuratorFactory}
+ * {@link CuratorFactory}
  * <p>
  * TODO Until a caching mechanism is available in illinois-core-utilities, this AnnotatorService
  * will not support caching
@@ -42,7 +42,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
     private String cacheFile = "curatorCache.db";
     /**
      * Overloaded constructor with default configuration.
-     * @see edu.illinois.cs.cogcomp.curator.CuratorAnnotatorService#CuratorAnnotatorService(ResourceManager)
+     * @see CuratorAnnotatorService#CuratorAnnotatorService(ResourceManager)
      */
     protected CuratorAnnotatorService() throws Exception {
         this(new CuratorConfigurator().getDefaultConfig());
@@ -53,22 +53,22 @@ public class CuratorAnnotatorService implements AnnotatorService {
      * all {@code Curator} components under
      * {@link edu.illinois.cs.cogcomp.core.datastructures.ViewNames}. (to access the rest of the
      * {@code Curator} annotators, you will need to requrest it manually, by altering
-     * {@link edu.illinois.cs.cogcomp.curator.CuratorClient#addRecordViewFromCurator}).
+     * {@link edu.illinois.cs.cogcomp.curator2.CuratorClient#addRecordViewFromCurator}).
      * <p>
      * Each {@code Curator} internal component is wrapped in a
-     * {@link edu.illinois.cs.cogcomp.curator.CuratorAnnotator} that automates the retrieval of
+     * {@link CuratorAnnotator} that automates the retrieval of
      * {@code requiredViews} and {@code viewName}. The current set of components is built using the
      * dependencies and view names found in
      * {@code /shared/trollope/curator/dist/configs/annotators-trollope.xml, Mar 12 09:12}.
      *
      * @param rm ResourceManager with properties for the
-     *        {@link edu.illinois.cs.cogcomp.curator.CuratorClient} and caching behavior
+     *        {@link edu.illinois.cs.cogcomp.curator2.CuratorClient} and caching behavior
      */
     protected CuratorAnnotatorService(ResourceManager rm) {
         if (!rm.getBoolean(CuratorConfigurator.DISABLE_CACHE))
             this.annotationCache = new TextAnnotationMapDBHandler(cacheFile);
 
-        CuratorClient curatorClient = new CuratorClient(rm);
+        edu.illinois.cs.cogcomp.curator2.CuratorClient curatorClient = new edu.illinois.cs.cogcomp.curator2.CuratorClient(rm);
 
         taBuilder = new CuratorTextAnnotationBuilder(curatorClient);
 

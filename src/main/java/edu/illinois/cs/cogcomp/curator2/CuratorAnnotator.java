@@ -5,12 +5,11 @@
  * Developed by: The Cognitive Computation Group University of Illinois at Urbana-Champaign
  * http://cogcomp.cs.illinois.edu/
  */
-package edu.illinois.cs.cogcomp.curator;
+package edu.illinois.cs.cogcomp.curator2;
 
 import edu.illinois.cs.cogcomp.annotation.AnnotatorException;
 import edu.illinois.cs.cogcomp.annotation.Annotator;
 import edu.illinois.cs.cogcomp.core.datastructures.textannotation.TextAnnotation;
-import edu.illinois.cs.cogcomp.core.datastructures.textannotation.View;
 import edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager;
 import edu.illinois.cs.cogcomp.thrift.base.AnnotationFailedException;
 import edu.illinois.cs.cogcomp.thrift.base.ServiceUnavailableException;
@@ -29,10 +28,10 @@ import java.net.SocketException;
  * @author Christos Christodoulopoulos
  */
 public class CuratorAnnotator extends Annotator {
-    private CuratorClient curatorClient;
+    private edu.illinois.cs.cogcomp.curator2.CuratorClient curatorClient;
 
 
-    public CuratorAnnotator(CuratorClient curatorClient, String viewName, String[] requiredViews) {
+    public CuratorAnnotator(edu.illinois.cs.cogcomp.curator2.CuratorClient curatorClient, String viewName, String[] requiredViews) {
         super(viewName, requiredViews);
         this.curatorClient = curatorClient;
     }

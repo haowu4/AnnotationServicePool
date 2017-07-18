@@ -1,4 +1,4 @@
-package edu.illinois.cs.cogcomp.curator;
+package edu.illinois.cs.cogcomp.curator2;
 
 import edu.illinois.cs.cogcomp.annotation.Annotator;
 import edu.illinois.cs.cogcomp.annotation.AnnotatorException;

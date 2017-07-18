@@ -6,7 +6,7 @@ import edu.illinois.cs.cogcomp.core.utilities.StringTransformation;
 import edu.illinois.cs.cogcomp.core.utilities.StringTransformationCleanup;
 import edu.illinois.cs.cogcomp.core.utilities.configuration.Configurator;
 import edu.illinois.cs.cogcomp.core.utilities.configuration.ResourceManager;
-import edu.illinois.cs.cogcomp.curator.CuratorConfigurator;
+import edu.illinois.cs.cogcomp.curator2.CuratorConfigurator;
 
 import java.io.File;
 import java.io.IOException;
