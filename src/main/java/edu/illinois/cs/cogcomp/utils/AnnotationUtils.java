@@ -59,7 +59,7 @@ public class AnnotationUtils {
 //                Configurator.FALSE);
 
         props.setProperty(AnnotatorServiceConfigurator.DISABLE_CACHE.key,
-                Configurator.FALSE);
+                Configurator.TRUE);
 //
 //        File directory = new File("/tmp/curator_cache");
 //        if (!directory.exists()) {
@@ -119,9 +119,9 @@ public class AnnotationUtils {
 
 
         props.setProperty(AnnotatorServiceConfigurator.DISABLE_CACHE.key,
-                Configurator.FALSE);
+                Configurator.TRUE);
         props.setProperty(AnnotatorServiceConfigurator.CACHE_DIR.key,
-                "/tmp/curator_cache");
+                "/tmp/curator_cache2");
         props.setProperty(
                 AnnotatorServiceConfigurator.THROW_EXCEPTION_IF_NOT_CACHED.key,
                 Configurator.FALSE);

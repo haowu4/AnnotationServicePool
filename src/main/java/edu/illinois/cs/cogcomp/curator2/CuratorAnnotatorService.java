@@ -1,7 +1,7 @@
 /**
  * This software is released under the University of Illinois/Research and Academic Use License. See
  * the LICENSE file in the root folder for details. Copyright (c) 2016
- *
+ * <p>
  * Developed by: The Cognitive Computation Group University of Illinois at Urbana-Champaign
  * http://cogcomp.cs.illinois.edu/
  */
@@ -40,8 +40,10 @@ public class CuratorAnnotatorService implements AnnotatorService {
     private final Map<String, Annotator> viewProviders;
     protected TextAnnotationCache annotationCache = null;
     private String cacheFile = "curatorCache.db";
+
     /**
      * Overloaded constructor with default configuration.
+     *
      * @see CuratorAnnotatorService#CuratorAnnotatorService(ResourceManager)
      */
     protected CuratorAnnotatorService() throws Exception {
@@ -62,7 +64,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
      * {@code /shared/trollope/curator/dist/configs/annotators-trollope.xml, Mar 12 09:12}.
      *
      * @param rm ResourceManager with properties for the
-     *        {@link edu.illinois.cs.cogcomp.curator2.CuratorClient} and caching behavior
+     *           {@link edu.illinois.cs.cogcomp.curator2.CuratorClient} and caching behavior
      */
     protected CuratorAnnotatorService(ResourceManager rm) {
         if (!rm.getBoolean(CuratorConfigurator.DISABLE_CACHE))
@@ -76,7 +78,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
         List<Annotator> annotators = new ArrayList<>();
         // Build the individual Curator components
         // (based off /shared/trollope/curator/dist/configs/annotators-trollope.xml, Mar 12 09:12)
-        requiredViews = new String[] {ViewNames.SENTENCE, ViewNames.TOKENS};
+        requiredViews = new String[]{ViewNames.SENTENCE, ViewNames.TOKENS};
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.POS, requiredViews));
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.NER_CONLL, requiredViews));
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.NER_ONTONOTES, requiredViews));
@@ -93,7 +95,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
         // annotators.add(new CuratorAnnotator(curatorClient, ViewNames.PARSE_CHARNIAK_KBEST,
         // requiredViews));
 
-        requiredViews = new String[] {ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS};
+        requiredViews = new String[]{ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS};
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.QUANTITIES, requiredViews));
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.LEMMA, requiredViews));
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.SHALLOW_PARSE, requiredViews));
@@ -102,23 +104,23 @@ public class CuratorAnnotatorService implements AnnotatorService {
                 .add(new CuratorAnnotator(curatorClient, ViewNames.PARSE_BERKELEY, requiredViews));
 
         requiredViews =
-                new String[] {ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS,
+                new String[]{ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS,
                         ViewNames.NER_CONLL};
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.COREF, requiredViews));
 
         requiredViews =
-                new String[] {ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS,
+                new String[]{ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS,
                         ViewNames.SHALLOW_PARSE, ViewNames.PARSE_CHARNIAK, ViewNames.NER_CONLL};
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.SRL_VERB, requiredViews));
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.SRL_NOM, requiredViews));
 
         requiredViews =
-                new String[] {ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS,
+                new String[]{ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS,
                         ViewNames.SHALLOW_PARSE, ViewNames.DEPENDENCY};
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.SRL_PREP, requiredViews));
 
         requiredViews =
-                new String[] {ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS,
+                new String[]{ViewNames.SENTENCE, ViewNames.TOKENS, ViewNames.POS,
                         ViewNames.SHALLOW_PARSE, ViewNames.NER_CONLL};
         annotators.add(new CuratorAnnotator(curatorClient, ViewNames.WIKIFIER, requiredViews));
 
@@ -135,7 +137,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
 
     @Override
     public TextAnnotation createBasicTextAnnotation(String corpusId, String docId, String text,
-            Tokenizer.Tokenization tokenization) throws AnnotatorException {
+                                                    Tokenizer.Tokenization tokenization) throws AnnotatorException {
         return taBuilder.createTextAnnotation(corpusId, docId, text, tokenization);
     }
 
@@ -149,7 +151,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
             // clone the views
             HashSet<String> views = new HashSet<>(viewProviders.keySet());
             views.removeAll(ta.getAvailableViews());
-            if(views.size() == 0) {
+            if (views.size() == 0) {
                 // it contains the required views; otherwise continue
                 return ta;
             }
@@ -162,7 +164,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
 
     @Override
     public TextAnnotation createAnnotatedTextAnnotation(String corpusId, String textId,
-            String text, Tokenizer.Tokenization tokenization) throws AnnotatorException {
+                                                        String text, Tokenizer.Tokenization tokenization) throws AnnotatorException {
         TextAnnotation ta = createBasicTextAnnotation(corpusId, textId, text, tokenization);
 
         if (annotationCache != null && annotationCache.contains(ta)) {
@@ -170,7 +172,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
             // clone the views
             HashSet<String> views = new HashSet<>(viewProviders.keySet());
             views.removeAll(ta.getAvailableViews());
-            if(views.size() == 0) {
+            if (views.size() == 0) {
                 // it contains the required views; otherwise continue
                 return ta;
             }
@@ -183,7 +185,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
 
     @Override
     public TextAnnotation createAnnotatedTextAnnotation(String corpusId, String textId,
-            String text, Set<String> viewNames) throws AnnotatorException {
+                                                        String text, Set<String> viewNames) throws AnnotatorException {
         TextAnnotation ta = createBasicTextAnnotation(corpusId, textId, text);
 
         if (annotationCache != null && annotationCache.contains(ta)) {
@@ -191,7 +193,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
             // clone the views
             HashSet<String> views = new HashSet<>(viewProviders.keySet());
             views.removeAll(ta.getAvailableViews());
-            if(views.size() == 0) {
+            if (views.size() == 0) {
                 // it contains the required views; otherwise continue
                 return ta;
             }
@@ -204,7 +206,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
 
     @Override
     public TextAnnotation createAnnotatedTextAnnotation(String corpusId, String textId,
-            String text, Tokenizer.Tokenization tokenization, Set<String> viewNames)
+                                                        String text, Tokenizer.Tokenization tokenization, Set<String> viewNames)
             throws AnnotatorException {
         TextAnnotation ta = createBasicTextAnnotation(corpusId, textId, text, tokenization);
 
@@ -213,7 +215,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
             // clone the views
             HashSet<String> views = new HashSet<>(viewProviders.keySet());
             views.removeAll(ta.getAvailableViews());
-            if(views.size() == 0) {
+            if (views.size() == 0) {
                 // it contains the required views; otherwise continue
                 return ta;
             }
@@ -239,7 +241,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
 
         if (annotationCache != null && annotationCache.contains(ta)) {
             TextAnnotation taFromCache = annotationCache.getTextAnnotation(ta);
-            if(taFromCache.getAvailableViews().contains(viewName)) {
+            if (taFromCache.getAvailableViews().contains(viewName)) {
                 ta.addView(viewName, taFromCache.getView(viewName));
                 return false;
             }
@@ -254,8 +256,10 @@ public class CuratorAnnotatorService implements AnnotatorService {
 
         if (annotationCache != null && annotationCache.contains(ta))
             annotationCache.updateTextAnnotation(ta);
-        else
-            annotationCache.addTextAnnotation(ta.getCorpusId(), ta);
+        else {
+            if (annotationCache != null) annotationCache.addTextAnnotation(ta.getCorpusId(), ta);
+        }
+
 
         return isUpdated;
     }
@@ -269,10 +273,10 @@ public class CuratorAnnotatorService implements AnnotatorService {
      */
     @Override
     public void addAnnotator(Annotator annotator) throws AnnotatorException {
-        for ( String prereq : annotator.getRequiredViews() )
-            if ( !viewProviders.containsKey( prereq ) )
-                throw new AnnotatorException( "Prerequisite view '" + prereq +
-                        "' is not provided by other annotators." );
+        for (String prereq : annotator.getRequiredViews())
+            if (!viewProviders.containsKey(prereq))
+                throw new AnnotatorException("Prerequisite view '" + prereq +
+                        "' is not provided by other annotators.");
     }
 
     /**
@@ -302,7 +306,7 @@ public class CuratorAnnotatorService implements AnnotatorService {
             // clone the views
             HashSet<String> views = new HashSet<>(viewProviders.keySet());
             views.removeAll(ta.getAvailableViews());
-            if(views.size() == 0) {
+            if (views.size() == 0) {
                 // it contains the required views; otherwise continue
                 return ta;
             }
