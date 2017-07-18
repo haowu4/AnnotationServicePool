@@ -144,7 +144,11 @@ public class PoolOfClient {
 //                            log.write(JsonUtils.PRETTY_GSON.toJson(response.getFailures()));
 
                             String result = JsonUtils.UGLY_GSON.toJson(response);
-                            FileUtils.writeStringToFile(new File(OUTPUT_BASE, d.getId().replace("/", ".") + ".json"), result);
+                            String filename = d.getId().replace("/", ".") + ".json";
+                            if (filename.startsWith(".")) {
+                                filename = filename.substring(1);
+                            }
+                            FileUtils.writeStringToFile(new File(OUTPUT_BASE, filename), result);
                             finished.incrementAndGet();
                         } catch (Exception e) {
                             e.printStackTrace();
