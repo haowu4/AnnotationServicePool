@@ -60,13 +60,13 @@ public class AnnotationUtils {
 
         props.setProperty(AnnotatorServiceConfigurator.DISABLE_CACHE.key,
                 Configurator.FALSE);
-
-        File directory = new File("/tmp/curator_cache");
-        if (!directory.exists()) {
-            directory.mkdir();
-            // If you require it to make the entire directory path including parents,
-            // use directory.mkdirs(); here instead.
-        }
+//
+//        File directory = new File("/tmp/curator_cache");
+//        if (!directory.exists()) {
+//            directory.mkdir();
+//            // If you require it to make the entire directory path including parents,
+//            // use directory.mkdirs(); here instead.
+//        }
 
 
         props.setProperty(AnnotatorServiceConfigurator.CACHE_DIR.key,
@@ -112,10 +112,10 @@ public class AnnotationUtils {
 //        props.setProperty(
 //                PipelineConfigurator.USE_SRL_INTERNAL_PREPROCESSOR.key,
 //                Configurator.FALSE);
-        File directory = new File("/tmp/curator_cache");
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
+//        File directory = new File("/tmp/curator_cache");
+//        if (!directory.exists()) {
+//            directory.mkdir();
+//        }
 
 
         props.setProperty(AnnotatorServiceConfigurator.DISABLE_CACHE.key,
