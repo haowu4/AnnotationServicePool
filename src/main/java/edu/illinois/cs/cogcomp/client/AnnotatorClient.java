@@ -96,6 +96,8 @@ public class AnnotatorClient {
                 new AnnotationRequest.AnnotationView(ViewNames.SHALLOW_PARSE, true, false),
                 new AnnotationRequest.AnnotationView(ViewNames.SRL_NOM, true, false),
                 new AnnotationRequest.AnnotationView(ViewNames.SRL_VERB, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.SRL_NOM, true, false),
+                new AnnotationRequest.AnnotationView(ViewNames.SRL_VERB, true, false),
                 new AnnotationRequest.AnnotationView(ViewNames.LEMMA, false, false),
                 new AnnotationRequest.AnnotationView(ViewNames.DEPENDENCY_STANFORD, false, false),
                 new AnnotationRequest.AnnotationView(ViewNames.PARSE_STANFORD, false, false)
