@@ -279,11 +279,11 @@ public class CuratorClient {
             SocketException {
         viewName = convertCuratorViewName(viewName);
         TSocket tSocket = new TSocket(this.curatorHost, this.curatorPort);
-//        tSocket.setTimeout(1000 * 60);
-        System.err.println("Setting timeout...");
+        tSocket.setTimeout(1000 * 60);
+//        System.err.println("Setting timeout...");
         TTransport transport = tSocket;
-        System.out.println("My own implementation with timeout: Calling curator on host '" + curatorHost + "', port '" + curatorPort
-                + "' for view '" + viewName + "'...");
+//        System.out.println("My own implementation with timeout: Calling curator on host '" + curatorHost + "', port '" + curatorPort
+//                + "' for view '" + viewName + "'...");
 
         logger.debug("Calling curator on host '" + curatorHost + "', port '" + curatorPort
                 + "' for view '" + viewName + "'...");
@@ -296,7 +296,7 @@ public class CuratorClient {
         }
         transport = new TFramedTransport(transport);
 
-        ((TSocket) transport).getSocket().setSoTimeout(1000 * 240);
+//        ((TSocket) transport).getSocket().setSoTimeout(1000 * 240);
 
         TProtocol protocol = new TBinaryProtocol(transport);
         transport.open();
