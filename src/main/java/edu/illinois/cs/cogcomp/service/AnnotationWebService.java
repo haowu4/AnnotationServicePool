@@ -50,7 +50,12 @@ public class AnnotationWebService {
         final List<AnnotationFailures> failures = new ArrayList<>();
 
         StringTransformation transformation = new StringTransformation(doc.getText());
-        AnnotationUtils.cleanUp(transformation);
+        try {
+            AnnotationUtils.cleanUp(transformation);
+        }catch (Exception e){
+            failures.add(new AnnotationFailures(doc.getId(), "Transformation cleanup..", -1, e));
+        }
+
 
         try {
             textAnnotation = combinedService.getRemoteAnnotator()
