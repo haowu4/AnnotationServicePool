@@ -31,12 +31,12 @@ public class MyStringTransformationCleanup {
 
             for (int offset = 0; offset < length; ) {
                 // do something with the codepoint
-                BooleanIntPair replacement =
+                BooleanCharPair replacement =
                         normalizeCharacter(startStr, encoding, offset);
 
-                Character replacedChar = (char) (replacement.getSecond());
+                char replacedChar = replacement.getSecond();
 
-                if (null != replacedChar) {
+                if (0 != replacedChar) {
 
                     stringTransformation.transformString(charNum, charNum + 1, String.valueOf(replacedChar));
                     charNum++;
@@ -49,11 +49,11 @@ public class MyStringTransformationCleanup {
     }
 
 
-    public static class BooleanIntPair {
+    public static class BooleanCharPair {
         boolean first;
-        int second;
+        char second;
 
-        public BooleanIntPair(boolean first, int second) {
+        public BooleanCharPair(boolean first, char second) {
             this.first = first;
             this.second = second;
         }
@@ -62,7 +62,7 @@ public class MyStringTransformationCleanup {
             return first;
         }
 
-        public int getSecond() {
+        public char getSecond() {
             return second;
         }
     }
@@ -72,8 +72,8 @@ public class MyStringTransformationCleanup {
      * generic punctuation whitespace with whitespace letter with letter number with number currency
      * symbol with currency
      */
-    private static BooleanIntPair normalizeCharacter(String origString,
-                                                     Charset encoding, int offset) {
+    private static BooleanCharPair normalizeCharacter(String origString,
+                                                      Charset encoding, int offset) {
 
         char normalizedChar = ' ';
 
@@ -93,7 +93,10 @@ public class MyStringTransformationCleanup {
         if (isOk)
             newChar = normalizedChar;
 
-        return new BooleanIntPair(isOk, newChar);
+        if (newChar == null) {
+            return new BooleanCharPair(isOk, (char) 0);
+        }
+        return new BooleanCharPair(isOk, newChar);
     }
 
 
