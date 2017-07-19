@@ -68,7 +68,9 @@ public class AnnotatorClient {
         if (response.code() != 200) {
 //            System.err.println("");
 //            System.out.println("");
-            throw new AnnotatorException(String.format("Doc : %s, Status : %d", docId, response.code()));
+            String results = response.body().string();
+
+            throw new AnnotatorException(String.format("Doc : %s, Status : %d, info: %s", docId, response.code(), results));
         }
         String results = response.body().string();
         return JsonUtils.UGLY_GSON

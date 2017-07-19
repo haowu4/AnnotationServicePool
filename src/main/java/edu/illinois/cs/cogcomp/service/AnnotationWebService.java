@@ -52,8 +52,12 @@ public class AnnotationWebService {
         StringTransformation transformation = new StringTransformation(doc.getText());
         try {
             AnnotationUtils.cleanUp(transformation);
-        }catch (Exception e){
+        } catch (Exception e) {
+            response.status(500);
             failures.add(new AnnotationFailures(doc.getId(), "Transformation cleanup..", -1, e));
+            AnnotationResponse annotationResponse = new AnnotationResponse(
+                    "", failures);
+            return UGLY_GSON.toJson(annotationResponse);
         }
 
 
