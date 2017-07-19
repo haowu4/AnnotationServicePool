@@ -173,7 +173,7 @@ public class AnnotationUtils {
                                         Function<String, String> mapper) {
 
         Pattern p = Pattern.compile(pattern);
-        Matcher matcher = p.matcher(transformation.getOrigText());
+        Matcher matcher = p.matcher(transformation.getTransformedText());
 
         while (matcher.find()) {
             int start = matcher.start();
@@ -203,25 +203,16 @@ public class AnnotationUtils {
         cleanUpByPattern(transformation, "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\s\\d{2}:\\s\\d{2}\\s+",
                 old -> "");
 
-        StringTransformationCleanup.normalizeToAscii(transformation);
-        StringTransformationCleanup.removeDiacritics(transformation);
+        MyStringTransformationCleanup.normalizeToAscii(transformation);
+        MyStringTransformationCleanup.removeDiacritics(transformation);
 
     }
 
     public static void main(String[] args) throws IOException {
-        String all = FileUtils.readFileToString(new File("/tmp/errors.txt"));
-        String[] examples = all.split("------");
-        Set<String> uniqueExamples = new HashSet<>();
-        uniqueExamples.addAll(Arrays.asList(examples));
-        for (String example : uniqueExamples) {
-            System.out.println("--------------------");
-            System.out.println(example);
-            StringTransformation transformation = new StringTransformation(example);
-            cleanUp(transformation);
-            System.out.println("                ");
-            System.out.println(transformation.getTransformedText());
-            System.out.println("====================");
-        }
+        String all = FileUtils.readFileToString(new File("/tmp/error.txt"));
+        StringTransformation transformation = new StringTransformation(all);
+        cleanUp(transformation);
     }
+
 
 }
