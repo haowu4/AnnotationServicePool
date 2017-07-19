@@ -189,7 +189,6 @@ public class AnnotationUtils {
 
     public static void cleanUp(StringTransformation transformation) {
 //    StringTransformationCleanup.normalizeToLatin1(transformation);
-        StringTransformationCleanup.removeDiacritics(transformation);
         // unescape XML elements.
 
         cleanUpByPattern(transformation, "&quot;", old -> "\"");
@@ -204,6 +203,8 @@ public class AnnotationUtils {
         cleanUpByPattern(transformation, "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\s\\d{2}:\\s\\d{2}\\s+",
                 old -> "");
 
+        StringTransformationCleanup.normalizeToAscii(transformation);
+        StringTransformationCleanup.removeDiacritics(transformation);
 
     }
 
