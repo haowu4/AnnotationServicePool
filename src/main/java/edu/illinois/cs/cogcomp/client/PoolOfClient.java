@@ -3,9 +3,13 @@ package edu.illinois.cs.cogcomp.client;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import edu.illinois.cs.cogcomp.service.Document;
+import edu.illinois.cs.cogcomp.service.message.AnnotationFailures;
 import edu.illinois.cs.cogcomp.service.message.AnnotationResponse;
 import edu.illinois.cs.cogcomp.utils.JsonUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jetty.util.ConcurrentHashSet;
+import org.h2.mvstore.ConcurrentArrayList;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,9 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,11 +41,15 @@ public class PoolOfClient {
         @Parameter(names = {"-shuffle"}, description = "Random order")
         boolean shuffleOrder = false;
 
+        @Parameter(names = {"-exclude_list"}, description = "Random order")
+        String exclude = "";
+
         @Override
         public String toString() {
             return "Args{" +
                     "inputFolder='" + inputFolder + '\'' +
                     ", outputFolder='" + outputFolder + '\'' +
+                    ", exclude='" + exclude + '\'' +
                     ", shuffleOrder=" + shuffleOrder +
                     '}';
         }
@@ -67,9 +73,6 @@ public class PoolOfClient {
                 .parse(argv);
 
         System.out.println(args);
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Press enter to continue ...");
-        scanner.nextLine();
 
 
         final String BASE = args.inputFolder;
@@ -80,6 +83,13 @@ public class PoolOfClient {
                 .collect(Collectors.toList());
 
         System.out.println(docPaths.size() + " documents found.");
+        Set<String> avoids = new HashSet<>();
+        if (!args.exclude.isEmpty()) {
+            List<String> lines = FileUtils.readLines(new File(args.exclude));
+            for (String line : lines) {
+                avoids.add(line.trim());
+            }
+        }
 
 
         if (args.shuffleOrder) {
@@ -90,11 +100,23 @@ public class PoolOfClient {
 
         for (Path p : docPaths) {
             String id = p.toString().replaceFirst(BASE, "");
+            if (id.startsWith("/")){
+                id = id.substring(1);
+            }
+            if (avoids.contains(id)) {
+                continue;
+            }
             String text = FileUtils.readFileToString(p.toFile());
             documents.add(new Document("data", id, text));
         }
 
         final int docSize = documents.size();
+
+        System.out.println(docSize + " documents need to annotate.");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Press enter to continue ...");
+        scanner.nextLine();
 
         List<AnnotatorClient> clients = getAllClients();
 
@@ -102,12 +124,23 @@ public class PoolOfClient {
 
         AtomicInteger numOfFailure = new AtomicInteger();
         AtomicInteger finished = new AtomicInteger();
+        AtomicInteger hostDead = new AtomicInteger();
+        ConcurrentHashSet<String> deadHosts = new ConcurrentHashSet<>();
 
         Thread reporter = new Thread(new Runnable() {
             @Override
             public void run() {
+                long it = 0;
                 while (!documents.isEmpty()) {
-                    System.out.print(String.format("Status: %d/%d finished. Average failure sentence-view count %d", finished.get(), docSize, numOfFailure.get()));
+                    it++;
+                    if (it % 20 == 0) {
+                        try {
+                            FileUtils.writeStringToFile(new File("deadhosts.lst"), StringUtils.join(deadHosts.stream().collect(Collectors.toList()), "\n"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.print(String.format("Status: %d/%d finished. Average failure sentence-view count %d, host dead %d", finished.get(), docSize, numOfFailure.get(), hostDead.get()));
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
@@ -130,6 +163,8 @@ public class PoolOfClient {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    int SUE_COUNT = 0;
+
                     AnnotatorClient client = clients.get(finalI);
                     while (!documents.isEmpty()) {
                         try {
@@ -142,6 +177,23 @@ public class PoolOfClient {
                             }
 
 //                            log.write(JsonUtils.PRETTY_GSON.toJson(response.getFailures()));
+                            for (AnnotationFailures failures : response.getFailures()) {
+                                if (failures.getMessage().startsWith("ServiceUnavailableException")) {
+                                    SUE_COUNT++;
+                                }
+                            }
+
+                            if (SUE_COUNT > 3) {
+                                System.out.println("1.Annotator " + client.hostname + " dead...");
+                                System.out.println("2.Annotator " + client.hostname + " dead...");
+                                System.out.println("3.Annotator " + client.hostname + " dead...");
+                                hostDead.incrementAndGet();
+                                deadHosts.add(client.hostname);
+                                Thread.sleep(1000 * 60);
+                                hostDead.decrementAndGet();
+                                deadHosts.remove(client.hostname);
+                                SUE_COUNT = 0;
+                            }
 
                             String result = JsonUtils.UGLY_GSON.toJson(response);
                             String filename = d.getId().replace("/", ".") + ".json";

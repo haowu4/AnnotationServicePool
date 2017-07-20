@@ -29,7 +29,7 @@ public class CheckResults {
 
 
     public static void main(String[] args) throws IOException {
-        final String BASE = "/home/haowu4/annotation/coldstart_2017/need_to_annotate";
+        final String BASE = "/home/haowu4/annotation/coldstart_2017_result";
 
         List<Path> docPaths = Files.walk(Paths.get(BASE))
                 .filter(Files::isRegularFile)
@@ -37,28 +37,15 @@ public class CheckResults {
 
         System.out.println(docPaths.size() + " documents found.");
 
-        List<String> goodFiles = new ArrayList<>();
-        List<String> badFilesList = new ArrayList<>();
 
-        int counter = 0;
-        int badFiles = 0;
         for (Path p : docPaths) {
-            counter++;
             File f = p.toFile();
             String content = FileUtils.readFileToString(f);
             AnnotationResponse response = JsonUtils.UGLY_GSON.fromJson(content, AnnotationResponse.class);
-//            TextAnnotation r = getTextAnnotationFromResponse(response);
-            if (response.getFailures().size() > 10) {
-                System.out.print(String.format(" %d/%d \r", badFiles, counter));
-                badFiles++;
-                badFilesList.add(f.getAbsolutePath());
-            } else {
-                goodFiles.add(f.getAbsolutePath());
-            }
+            TextAnnotation r = getTextAnnotationFromResponse(response);
+            System.out.println(r.getAvailableViews());
         }
 
-        FileUtils.writeLines(new File("/tmp/annotation.result"), goodFiles);
-        FileUtils.writeLines(new File("/tmp/bad_file_list.txt"), goodFiles);
 
     }
 }

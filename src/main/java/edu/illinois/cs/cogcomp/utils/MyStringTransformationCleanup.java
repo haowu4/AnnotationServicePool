@@ -40,7 +40,11 @@ public class MyStringTransformationCleanup {
 
                     stringTransformation.transformString(charNum, charNum + 1, String.valueOf(replacedChar));
                     charNum++;
+                } else {
+                    // Should remove this char.
+                    stringTransformation.transformString(charNum, charNum + 1, "");
                 }
+
                 offset += Character.charCount(replacedChar);
             }
         }

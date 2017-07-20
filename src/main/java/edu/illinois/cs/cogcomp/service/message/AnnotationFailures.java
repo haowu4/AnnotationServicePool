@@ -56,4 +56,8 @@ public class AnnotationFailures {
     public String getError() {
         return error;
     }
+
+    public String getMessage() {
+        return message;
+    }
 }
