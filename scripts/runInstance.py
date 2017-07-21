@@ -26,28 +26,29 @@ def run_instance(count, init):
     # Red Hat Enterprise Linux 6.4 (ami-7d0c6314)
 
 
-    new_reservation = conn.request_spot_instances(
-                            price="0.19",
-                            image_id='ami-385d4b2e',
-                            count=count,
-                            type="one-time",
+    new_reservation = conn.run_instances(
+                            image_id='ami-56fde840',
+                            min_count=count,
+                            max_count=count,
+                            # type="one-time",
+                            # availability_zone_group="us-east-1b",
                             key_name='haowu4_mbpr',
-                            instance_type='m4.2xlarge',
+                            instance_type='c4.4xlarge',
                             security_group_ids=['sg-33ce6642'],
                             user_data=user_data_script)
     print "New instance created."
     time.sleep(1)
-    spot_ids = [x.id for x in new_reservation]
-    i = 20
-    while i > 0:
-        if all_have_ip(conn, spot_ids):
-            conn.create_tags(get_all_ip(conn, spot_ids), {"Name":"Curator with SRL"})
-            break
+    # spot_ids = [x.id for x in new_reservation]
+    # i = 20
+    # while i > 0:
+    #     if all_have_ip(conn, spot_ids):
+    #         conn.create_tags(get_all_ip(conn, spot_ids), {"Name":"Curator with SRL"})
+    #         break
         
-        time.sleep(10)
+    #     time.sleep(10)
 
-    if i <= 0:
-        print "Waited too long for spot instance to fire up..."
+    # if i <= 0:
+    #     print "Waited too long for spot instance to fire up..."
 
 if __name__ == '__main__':
     run_instance()

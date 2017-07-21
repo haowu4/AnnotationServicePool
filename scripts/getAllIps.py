@@ -7,10 +7,11 @@ def get_all_ip(conn, ids):
 
 def get_all_running_ips():
     conn = boto.ec2.connect_to_region('us-east-1')
-    spots = conn.get_all_spot_instance_requests()
-    running_instances = [spot.instance_id for spot in spots if spot.instance_id != None]
-    # print running_instances
-    instances = conn.get_all_instances(instance_ids=running_instances)
+    # spots = conn.get_all_spot_instance_requests()
+    # running_instances = [spot.instance_id for spot in spots if spot.instance_id != None]
+    # # print running_instances
+    # instances = conn.get_all_instances(instance_ids=running_instances)
+    instances = conn.get_all_instances()
     ips = []
     for resv in instances:
         for instance in resv.instances:
