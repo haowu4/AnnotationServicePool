@@ -11,7 +11,7 @@ import java.nio.charset.CharsetEncoder;
  * Created by haowu4 on 7/18/17.
  */
 public class MyStringTransformationCleanup {
-    private static final String LATIN1 = "ISO-8859-1";
+    public static final String LATIN1 = "ISO-8859-1";
 
     /**
      * tries to normalize string to specified encoding. The number of characters returned should be
@@ -76,7 +76,7 @@ public class MyStringTransformationCleanup {
      * generic punctuation whitespace with whitespace letter with letter number with number currency
      * symbol with currency
      */
-    private static BooleanCharPair normalizeCharacter(String origString,
+    public static BooleanCharPair normalizeCharacter(String origString,
                                                       Charset encoding, int offset) {
 
         char normalizedChar = ' ';
@@ -104,12 +104,12 @@ public class MyStringTransformationCleanup {
     }
 
 
-    private static boolean checkIsLatin(int codepoint) {
+    public static boolean checkIsLatin(int codepoint) {
         return checkIsInEncoding(codepoint, Charset.forName(LATIN1));
     }
 
 
-    private static boolean checkIsInEncoding(int codepoint, Charset encoding) {
+    public static boolean checkIsInEncoding(int codepoint, Charset encoding) {
 
         boolean isOk = false;
 
