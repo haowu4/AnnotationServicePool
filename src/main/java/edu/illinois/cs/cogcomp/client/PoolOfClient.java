@@ -87,7 +87,7 @@ public class PoolOfClient {
         if (!args.exclude.isEmpty()) {
             List<String> lines = FileUtils.readLines(new File(args.exclude));
             for (String line : lines) {
-                avoids.add(line.trim());
+                avoids.add(line.trim().replace(".json", ""));
             }
         }
 

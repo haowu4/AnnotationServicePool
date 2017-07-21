@@ -8,7 +8,9 @@ import edu.illinois.cs.cogcomp.core.utilities.StringTransformationCleanup;
 import edu.illinois.cs.cogcomp.service.CombinedAnnotatorService;
 import edu.illinois.cs.cogcomp.utils.AnnotationUtils;
 import edu.illinois.cs.cogcomp.utils.MyStringTransformationCleanup;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,22 +34,26 @@ public class CheckSTEmpty {
 
 
     public static void main(String[] args) throws Exception {
-        StringTransformation transformation = new StringTransformation("hushèd Casket");
+        String text;
+        text = "hèd hèd Casket";
+        text = FileUtils.readFileToString(new File("/home/haowu4/annotation/coldstart_2017/need_to_annotate_df/ENG_DF_001503_20130302_G00A0GEB8"));
+        text = "a fine of â\u0082¬4,500";
+        StringTransformation transformation = new StringTransformation(text);
 
 //        StringTransformationCleanup.normalizeToAscii(transformation);
         MyStringTransformationCleanup.normalizeToAscii(transformation);
 
-        CombinedAnnotatorService combinedService = new CombinedAnnotatorService(
-                AnnotationUtils.getLocalConfig(), AnnotationUtils.getRemoteConfig(),
-                toSet(AnnotationUtils.getLocalViews()), toSet(getRemoteViews()));
-
-        TextAnnotation textAnnotation = combinedService.getRemoteAnnotator()
-                .createBasicTextAnnotation("test", "test", transformation.getTransformedText());
-        checkToken(textAnnotation);
-        TextAnnotation original = TextAnnotationUtilities
-                .mapTransformedTextAnnotationToSource(textAnnotation, transformation);
-        checkToken(original);
-        System.out.println(textAnnotation);
+//        CombinedAnnotatorService combinedService = new CombinedAnnotatorService(
+//                AnnotationUtils.getLocalConfig(), AnnotationUtils.getRemoteConfig(),
+//                toSet(AnnotationUtils.getLocalViews()), toSet(getRemoteViews()));
+//
+//        TextAnnotation textAnnotation = combinedService.getRemoteAnnotator()
+//                .createBasicTextAnnotation("test", "test", transformation.getTransformedText());
+//        checkToken(textAnnotation);
+//        TextAnnotation original = TextAnnotationUtilities
+//                .mapTransformedTextAnnotationToSource(textAnnotation, transformation);
+//        checkToken(original);
+//        System.out.println(textAnnotation);
 
     }
 

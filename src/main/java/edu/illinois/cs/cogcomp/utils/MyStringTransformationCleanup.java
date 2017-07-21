@@ -39,12 +39,13 @@ public class MyStringTransformationCleanup {
                 if (0 != replacedChar) {
 
                     stringTransformation.transformString(charNum, charNum + 1, String.valueOf(replacedChar));
-                    charNum++;
+                    charNum += String.valueOf(replacedChar).length();
                 } else {
                     // Should remove this char.
                     stringTransformation.transformString(charNum, charNum + 1, "");
-                }
 
+                }
+                stringTransformation.applyPendingEdits();
                 offset += Character.charCount(replacedChar);
             }
         }
@@ -77,7 +78,7 @@ public class MyStringTransformationCleanup {
      * symbol with currency
      */
     public static BooleanCharPair normalizeCharacter(String origString,
-                                                      Charset encoding, int offset) {
+                                                     Charset encoding, int offset) {
 
         char normalizedChar = ' ';
 

@@ -183,6 +183,7 @@ public class AnnotationUtils {
             transformation.transformString(start, end, mapper.apply(oldText));
 //      System.out
 //          .println(matcher.group() + ":" + "start =" + matcher.start() + " end = " + matcher.end());
+            matcher = p.matcher(transformation.getTransformedText());
         }
 
     }
@@ -203,9 +204,8 @@ public class AnnotationUtils {
         cleanUpByPattern(transformation, "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\s\\d{2}:\\s\\d{2}\\s+",
                 old -> "");
 
-        MyStringTransformationCleanup.normalizeToAscii(transformation);
         MyStringTransformationCleanup.removeDiacritics(transformation);
-
+        MyStringTransformationCleanup.normalizeToAscii(transformation);
     }
 
     public static void main(String[] args) throws IOException {
