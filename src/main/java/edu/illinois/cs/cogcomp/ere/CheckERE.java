@@ -39,7 +39,7 @@ public class CheckERE {
         public void startElement(String uri, String localName, String qName,
                                  Attributes attributes) throws SAXException {
             if (qName.equalsIgnoreCase("entity_mention")) {
-                curRecoredLength = Integer.parseInt(attributes.getValue("offset"));
+                curRecoredLength = Integer.parseInt(attributes.getValue("length"));
             }
 
             if (qName.equalsIgnoreCase("mention_text")) {
