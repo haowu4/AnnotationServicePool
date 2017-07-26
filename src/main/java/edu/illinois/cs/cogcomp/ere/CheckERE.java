@@ -31,18 +31,54 @@ public class CheckERE {
 
         boolean fileIsFaulty = false;
 
+        boolean inMention;
+        int curRecoredLength;
+        StringBuilder stringBuilder = null;
+
+
         public void startElement(String uri, String localName, String qName,
                                  Attributes attributes) throws SAXException {
             if (qName.equalsIgnoreCase("entity_mention")) {
-                String mention = attributes.getValue("mention_text");
-                int length = mention.length();
-                int recoredLength = Integer.parseInt(attributes.getValue("offset"));
-                if (length != recoredLength) {
-                    fileIsFaulty = true;
-                    wrongLengthMentionCount.incrementAndGet();
-                }
+                curRecoredLength = Integer.parseInt(attributes.getValue("offset"));
+            }
+
+            if (qName.equalsIgnoreCase("mention_text")) {
+                inMention = true;
+                stringBuilder = new StringBuilder();
             }
         }
+
+        public void endElement(String uri, String localName,
+                               String qName) throws SAXException {
+
+            if (qName.equalsIgnoreCase("entity_mention")) {
+                curRecoredLength = -1;
+            }
+
+            if (qName.equalsIgnoreCase("mention_text")) {
+                inMention = false;
+                String mention = stringBuilder.toString();
+                int length = mention.length();
+                stringBuilder = null;
+                if (length != curRecoredLength) {
+                    if (curRecoredLength == -1) {
+                        throw new IllegalStateException("enetity_mention does not have mention_text node inside..");
+                    } else {
+                        wrongLengthMentionCount.incrementAndGet();
+                        fileIsFaulty = true;
+                    }
+                }
+            }
+
+        }
+
+        public void characters(char ch[], int start, int length) throws SAXException {
+
+            if (inMention) {
+                stringBuilder.append(new String(ch, start, length));
+            }
+        }
+
     }
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
@@ -69,6 +105,10 @@ public class CheckERE {
             System.out.print("\r");
             counter++;
         }
+        System.out.println("Results: ");
+        System.out.printf("%d/%d, %d files has the problem \n", counter, docPaths.size(), wrongLengthFileCount.get());
+
+
     }
 
 
