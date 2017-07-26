@@ -9,10 +9,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -89,6 +91,8 @@ public class CheckERE {
 
         System.out.println(docPaths.size() + " documents found.");
 
+        List<String> fs = new ArrayList<>();
+
         int counter = 0;
         for (Path p : docPaths) {
             System.out.printf("%d/%d, %d files has the problem", counter, docPaths.size(), wrongLengthFileCount.get());
@@ -101,9 +105,15 @@ public class CheckERE {
 
             if (handler.fileIsFaulty) {
                 wrongLengthFileCount.incrementAndGet();
+                fs.add(fileName);
             }
             System.out.print("\r");
             counter++;
+
+            if (!fs.isEmpty()) {
+                FileUtils.writeLines(new File("ere_err_files.txt"), fs);
+            }
+
         }
         System.out.println("Results: ");
         System.out.printf("%d/%d, %d files has the problem \n", counter, docPaths.size(), wrongLengthFileCount.get());
