@@ -14,9 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -37,6 +35,7 @@ public class CheckERE {
         int curRecoredLength;
         StringBuilder stringBuilder = null;
 
+        Set<String> errs = new HashSet<>();
 
         public void startElement(String uri, String localName, String qName,
                                  Attributes attributes) throws SAXException {
@@ -68,6 +67,7 @@ public class CheckERE {
                     } else {
                         wrongLengthMentionCount.incrementAndGet();
                         fileIsFaulty = true;
+                        errs.add(mention);
                     }
                 }
             }
@@ -105,7 +105,10 @@ public class CheckERE {
 
             if (handler.fileIsFaulty) {
                 wrongLengthFileCount.incrementAndGet();
-                fs.add(fileName);
+                for (String m : handler.errs) {
+                    fs.add(String.format("[%s]-%s", m, fileName));
+                }
+
             }
             System.out.print("\r");
             counter++;
