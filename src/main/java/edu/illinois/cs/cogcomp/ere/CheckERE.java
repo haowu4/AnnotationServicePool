@@ -111,7 +111,8 @@ public class CheckERE {
             counter++;
 
             if (!fs.isEmpty()) {
-                FileUtils.writeLines(new File("ere_err_files.txt"), fs);
+                if (fs.size() % 100 == 0)
+                    FileUtils.writeLines(new File("ere_err_files.txt"), fs);
             }
 
         }
